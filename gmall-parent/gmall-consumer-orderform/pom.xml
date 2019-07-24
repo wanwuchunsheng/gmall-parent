@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.parent.gmall</groupId>
+    <artifactId>gmall-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.parent.gmall</groupId>
+  <artifactId>gmall-consumer-orderform</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>gmall-consumer-orderform Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+  </properties>
+	
+  <dependencies>
+	   <!-- 引入web and tomcat -->
+	    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	   <!-- imp dubo 2.6.2Version -->
+		<dependency>
+		   <groupId>com.alibaba</groupId>
+		   <artifactId>dubbo</artifactId>
+		   <version>2.6.2</version>
+		</dependency>
+		<!-- zookeerper -->
+		<dependency>
+		    <groupId>org.apache.curator </groupId>
+		    <artifactId>curator-framework</artifactId>
+		    <version>2.12.0</version>
+		</dependency>
+		<!-- 引用公共接口 -->
+		<dependency>
+			<groupId>com.parent.gmall</groupId>
+			<artifactId>gmall-common-entity</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.parent.gmall</groupId>
+			<artifactId>gmall-commom-tools</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.parent.gmall</groupId>
+			<artifactId>gmall-common-interface</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- 引入SpringBoot starter和依赖 -->
+		<dependency>
+		   <groupId>com.alibaba.boot</groupId>
+		   <artifactId>dubbo-spring-boot-starter</artifactId>
+		   <version>0.2.0</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency> -->
+		<!-- 引入freeMarker的依赖包. -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-freemarker</artifactId>
+	    </dependency> 
+  </dependencies>
+	
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+  </build>
+  
+</project>

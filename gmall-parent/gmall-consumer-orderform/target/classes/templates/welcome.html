@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>欢迎主页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../bootstrap/css/font-awesome.css">
+    <script type="text/javascript" src="../bootstrap/js/echarts.min.js"></script>
+    <script type="text/javascript" src="../imes/js/jquery.js"></script>
+    <script type="text/javascript" src="../imes/js/circle-progress.js"></script>
+
+    <script src="../layui/layui.js"></script>
+    <script type="text/javascript"
+            src="../imes/js/tools.js"></script>
+    <style type="text/css">
+
+    .layui-row div div{
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    #circle {
+        position: relative;
+        text-align: center;
+        font-size: 30px;
+    }
+    #circle span {
+        position: absolute;
+        top: 90px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 13px;
+    }
+
+
+
+    .layui-badge{
+        position: relative;
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 12px;
+        text-align: center;
+        background-color: #da3716;
+        color: #fff;
+        border-radius: 5px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 14px;
+        cursor:pointer;
+    }
+    .layui-badge-rim{
+        text-align: center;
+        height: 38px;
+        width:26px;
+        line-height: 38px;
+        font-size: 22px;
+        border-radius: 100px;
+        margin-bottom: 3px;
+        margin-left: 3px;
+    }
+    .badge-blue{
+        border-color: #278ffa;
+        color: #278ffa;
+    }
+    .badge-orange{
+        border-color: #fe7202;
+        color: #fe7202;
+    }
+    .badge-red{
+        border-color: #f72525;
+        color: #f72525;
+    }
+    .layui-card-header{
+        font-size: 18px
+    }
+    div.marquee{overflow:hidden;height:235px;width: 100%;color: #000000
+    }
+
+    .marquee>div{
+        height: 47px;
+    }
+
+        .warn-msg{
+            float: left;
+            width: 25%;
+            font-size: 14px;
+        }
+    .warn-msg-spindle{
+        float: left;
+        width: 30%;
+        font-size: 14px;
+    }
+        .warn-msg-side{
+            float: left;
+            width: 20%;
+            font-size: 14px;
+        }
+        .huading{
+            background-color: #f72525
+        }
+        .buliangding{
+            background-color: #fe7202;
+        }
+        .xianzhiding{
+            background-color: #01cbfe;
+        }
+        .pinfanduantou{
+            background-color: #278ffa;
+        }
+        .xingmu{
+            color: red;
+            font-size: 24px;
+        }
+    </style>
+
+</head>
+<body class="childrenBody" style="margin-top: 15px"  >
+<div class="layui-fluid">
+
+
+<div class="layui-row layui-col-space15 up">
+    <div class="layui-col-md4">
+
+
+<div style="height: 180px">
+            <div class="layui-card" style="height: 180px">
+                <div class="layui-card-header" style="margin-left:10px;text-align: left;color: #CF1900;font-size: 22px;height: 50px;line-height: 54px">
+                    首页看板
+                </div>
+                <div class="layui-card-body">
+                    <div style="width: 50%;float: left; text-align: center;margin-top: 40px" >
+                        <span style="font-size: 20px">A车间</span>
+                    </div>
+                <div style="width: 50%; float:left" align="center">
+                    <img src="../imes/images/chejian.png" style="border-radius:3px; height: 60px;width: 60px;margin-top:25px;"/>
+                </div>
+                </div>
+</div>
+    <div style="height: 285px;margin-top: 15px">
+        <div class="layui-card" style="box-shadow: none;height: 285px;">
+            <div class="layui-card-header" style="text-align: left;border: none;height: 48px" >
+                报警信息
+            </div>
+            <div class='layui-card-body' style="line-height: 40px;font-size: 18px;border-bottom: 1px solid beige">
+                <div class="marquee" id="RunTopic">
+
+                </div>
+
+            </div>
+
+        </div>
+            </div>
+    </div>
+    </div>
+    <div class="layui-col-md4">
+
+            <div class="layui-card" style="height: 500px">
+                <div class="layui-card-header" style="margin-left:10px;text-align: left;border: none" >
+                    实时平均效率
+                </div>
+                <div class='layui-card-body'>
+                    <div id="circle" style="padding-top: 20px"  align="center">
+<span></span>
+
+                    </div>
+                    <span style="font-size: 18px;margin-left: 10px">历史效率曲线图</span>
+                    <div id="container" style="height:250px"></div>
+                </div>
+            </div>
+    </div>
+    <div class="layui-col-md4">
+
+        <div  style="height: 156px;overflow: hidden">
+            <div class="" style="width: 25%; float: left" align="center" >
+                <img src="../imes/images/zhunbei.png" style="border-radius:3px; height: 60px;width: 60px;margin-top:50px;"/>
+            </div>
+            <div class="layui-card" style="float: left;width: 75%;box-shadow: none;margin-top:10px">
+                <div class="layui-card-header" style="text-align: left;border: none" >
+                    准备落纱机台
+                </div>
+                <div id="zhunbei" class='layui-card-body'>
+
+                </div>
+            </div>
+
+        </div>
+        <div style="height: 156px;margin-top: 15px ;overflow: hidden">
+            <div style="width: 25%; float: left" align="center"  >
+                <img src="../imes/images/luosha.png" style="border-radius:3px; height: 60px;width: 60px;margin-top:50px;"/>
+            </div>
+            <div class="layui-card" style="float: left;width: 75%;box-shadow: none;margin-top:10px">
+                <div class="layui-card-header" style="text-align: left;border: none" >
+                    正在落纱机台
+                </div>
+                <div id="doffing" class='layui-card-body'>
+
+                </div>
+            </div>
+        </div>
+        <div style="height: 156px;margin-top: 15px;overflow: hidden">
+            <div style="width: 25%; float: left" align="center" >
+                <img src="../imes/images/baojing.png" style="border-radius:3px; height: 60px;width: 60px;margin-top:50px;"/>
+            </div>
+            <div class="layui-card" style="float: left;width: 75%;box-shadow: none;margin-top:10px">
+                <div class="layui-card-header" style="text-align: left;border: none" >
+                    报警机台
+                </div>
+                <div id="warning" class='layui-card-body'>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15 under">
+    <div class="layui-col-md4">
+
+        <div style=" height: 450px">
+            <div class="layui-card-header" style="text-align: left;border: none;margin-bottom: 30px;" >
+                报警最高机台
+            </div>
+            <div id="container2" style="height: 380px"></div>
+        </div>
+    </div>
+    <div class="layui-col-md8">
+
+        <div style="height: 450px;">
+            <div class="layui-card" style="box-shadow: none;">
+            <div class="layui-card-header" style="text-align: left;border: none;">
+                断头数最高机台
+            </div>
+            <div class='layui-card-body'>
+            <div class="card-body" id="breakbar-chart" style="height:380px;">
+
+            </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--		</div>
+    </fieldset>-->
+
+</div>
+
+<script type="text/javascript">
+    var getData;
+    var wnames=[];
+    var wvalue0=[];
+    var wvalue1=[];
+    var wvalue2=[];
+    var wvalue3=[];
+    var wvalue4=[];
+    //基于准备好的dom，初始化echarts图表
+    var myChart3 = echarts.init(document.getElementById('breakbar-chart'));
+    layui.use(['element', 'form'], function () {
+        var element = layui.element
+            , form = layui.form
+            , $ = layui.jquery;
+
+
+        // 车间选择事件
+    /**
+       form.on('select(mdWkId)', function (data) {
+            console.log(data.value); //得到被选中的值
+            getData(data.value);
+            getPe(data.value);
+        });
+    */    
+        
+        var oldMsg;
+        var data2=[];
+        var getPe = function(wkId) {
+            $.ajax({
+                type: "POST",
+                url: "${futRoot_mesMon}/mon/wkshopMon/vf/getPe?wkId=" + wkId,
+                success: function (res) {
+                    data2=[];
+                    $.each(res, function (index, ele) {
+                        var now = new Date(ele.wkDate);
+                        var dayStr = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
+                        data2.push([dayStr, ele.pe]);
+                    })
+                    myChart.setOption({
+                        series: [
+                            {
+                                data: data2
+                            }
+                        ]
+                    })
+                 }
+                })
+        }
+        getData = function (wkId) {
+            $.ajax({
+                type: "POST",
+                url: "${futRoot_mesMon}/mon/wkshopMon/vf/equData?wkId=" + wkId,
+                success: function (res) {
+                    var readyhtml = "";
+                    var doffinghtml = "";
+                    var warninghtml = "";
+                    var warnmessage = "";
+                    var num = 0;
+                    var pe = 0;
+                    $.each(res, function (index, ele) {
+                        /*console.info(ele);*/
+                        if (ele.status!=5){
+                            num++;
+                        }
+                        pe += ele.prodEficiency;
+
+
+                        if (ele.status!=5&&ele.doffs <= 15) {
+                            readyhtml += "<span class=\"layui-badge-rim badge-blue\">" + ele.equName + "</span>";
+                        }
+                        if (ele.status == "3") {
+                            doffinghtml += "<span class=\"layui-badge-rim badge-orange\">" + ele.equName + "</span>";
+                        }
+                        if (ele.faultSpindles && ele.faultSpindles.length > 0) {
+                            warninghtml += "<span class=\"layui-badge-rim badge-red\">" + ele.equName + "</span>";
+                            ele.faultSpindles.sort(compare2('id'));
+                            $.each(ele.faultSpindles, function (index, e) {
+                                warnmessage += " <div>\n" +
+                                    "                                <div  class=\"warn-msg-side\"  >" + Format(e.t,'hh:mm:ss')+"</div><div class=\"warn-msg\" ><span  class=\"xingmu\">"+ele.equName+"# </span>机台</div><div class=\"warn-msg-spindle\"><span class=\"xingmu\">"+e.id+" </span>锭"+(e.s==1?"(左)":"(右)")+"</div>\n" +
+                                    "                                <div class=\"warn-msg\">"+(e.ty==2?"<span class=\"layui-badge huading\">弱捻</span>":e.ty==3?"<span class=\"layui-badge buliangding\">不良锭</span>":e.ty==4?"<span class=\"layui-badge xianzhiding\">空闲锭</span>":"<span class=\"layui-badge pinfanduantou\">频繁断头</span>") +"</div>\n" +
+                                    "                                </div>";
+
+                            })
+
+                        }
+                    })
+                    $("#zhunbei").html(readyhtml);
+                    $("#doffing").html(doffinghtml);
+                    $("#warning").html(warninghtml);
+                    // console.info(oldMsg==warnmessage);
+                    if (oldMsg!=warnmessage){
+                        //   console.info(warnmessage);
+                        oldMsg=warnmessage;
+
+                        $("#RunTopic").html(warnmessage);
+                        $('div.marquee').each(function () {
+                            if (this.scrollHeight > this.offsetHeight) new myMarquee(this);
+                        });
+                    }
+                    if (parseFloat(pe)>0){
+                        $('#circle').circleProgress({
+                            value:(pe / num/100).toFixed(3) - 0,
+                        })
+                    }else{
+                        $('#circle').circleProgress({
+                            value:0,
+                        })
+                    }
+
+                    var names = [];
+                    var values = [];
+                     wnames=[];
+                     wvalue0=[];
+                     wvalue1=[];
+                     wvalue2=[];
+                     wvalue3=[];
+                    wvalue4=[];
+
+                    res.sort(compare('sumEndBreak'));
+
+                    // 获取断头数最高的前十个机台
+                    var resnum;
+                    if (res.length>=10){
+                        resnum = 10;
+                    } else {
+                        resnum = res.length;
+                    }
+                    for (var i = 0; i < resnum; i++) {
+                        names.push(res[i].equName + "#");
+                        values.push(res[i].sumEndBreak)
+                    }
+                    var wnum;
+                    if (res.length>=5){
+                        wnum = 5;
+                    } else{
+                        wnum = res.length;
+                    }
+                    res.sort(compare('summt'));
+                    for( var j=0;j<wnum; j++){
+                        wnames.push(res[j].equName + "#");
+                        wvalue0.push(res[j].smt);
+                        wvalue1.push(res[j].rmt);
+                        wvalue2.push(res[j].imt);
+                        wvalue3.push(res[j].fmt);
+                        wvalue4.push(0);
+
+                    }
+                    myChart3.setOption({
+                        xAxis: [
+                            {
+                                data: names
+                            }
+                        ],
+                        series: [
+                            {
+                                data: values
+                            }
+                        ]
+                    })
+                    myChart2.setOption({
+                        yAxis: [
+                            {
+                                data: wnames
+                            }
+                        ],
+                        series: [
+                            {
+                                data: wvalue0
+                            },{
+                                data: wvalue1
+                            }, {
+                                data: wvalue2
+                            }, {
+                                data: wvalue3
+                            },{
+                                 data:wvalue4
+                            }
+                        ]
+                    })
+                }
+            });
+        }
+        var wkId=$("#mdWkId", parent.document).attr("value");
+        getPe(wkId);
+        getData(wkId);
+
+        function compare(property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value2 - value1;
+            }
+        }
+        function compare2(property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value1 - value2;
+            }
+        }
+
+
+
+        $('#circle').circleProgress({
+            value: 0,
+            size: 150,
+            lineCap:'round',
+            thickness:6,
+            fill: {
+                gradient: [ "red","orange"]
+            }
+        }).on('circle-animation-progress', function (event, progress, stepValue) {
+            var vvvv = stepValue*100;
+            $(this).find('span').html(vvvv.toFixed(1) + '%');
+            });
+        
+        
+        
+        
+        /**
+         *  把车间信息移到 main framer 状态栏
+         */
+         function   initWorkshop()
+         {
+             $("#workshopId", parent.document).find("dl dd").click(function(e) {	
+             var mdWkIdValue=$(this).find('a').attr('value');
+             var mdWkIdName=$(this).find('a').html();
+              $("#mdWkId", parent.document).attr("value",mdWkIdValue);
+              $("#mdWkId", parent.document).html(mdWkIdName);
+              $("#workshopId", parent.document).hide(); 
+              getData(mdWkIdValue);
+              getPe(mdWkIdValue);
+              
+           	});
+        }
+         
+         initWorkshop();
+
+         });
+
+
+    var dom2 = document.getElementById("container2");
+    var myChart2 = echarts.init(dom2);
+    option2 = null;
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+ /*   var app = {};
+    option = null;
+    var base = +new Date(2016, 9, 3);
+    var oneDay = 24 * 3600 * 1000;
+    var valueBase = Math.random() * 300;
+    var valueBase2 = Math.random() * 50;
+    var data = [];
+    var data2 = [];
+
+    for (var i = 1; i < 10; i++) {
+        var now = new Date(base += oneDay);
+        var dayStr = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
+
+        valueBase = Math.round((Math.random() - 0.5) * 20 + valueBase);
+        valueBase <= 0 && (valueBase = Math.random() * 300);
+        data.push([dayStr, valueBase]);
+
+        valueBase2 = Math.round((Math.random() - 0.5) * 20 + valueBase2);
+        valueBase2 <= 0 && (valueBase2 = Math.random() * 50);
+        data2.push([dayStr, valueBase2]);
+    }
+*/
+    option = {
+        animation: false,
+
+
+        legend: {
+            top: 'bottom',
+            data:['意向']
+        },
+        
+        tooltip : {
+            trigger: 'axis',
+             position: function (pt) {
+            return [pt[0], 130];
+           }
+        },
+        
+     //   tooltip: {
+     //       triggerOn: 'none',
+     //       position: function (pt) {
+              //  return [pt[0], 130];
+     //       }
+     //   },
+
+        xAxis: {
+            type: 'time',
+            // boundaryGap: [0, 0],
+           axisLine:{
+                show:false
+           },
+
+            splitLine:{
+                show:false
+            }
+        },
+        yAxis: {
+            type: 'value',
+            show:false,
+            axisTick: {
+                inside: true
+            },
+
+            z: 10
+        },
+        grid: {
+            top: 55,
+            left: 15,
+            right: 15,
+            height: 160
+        },
+        dataZoom: [{
+            type: 'inside',
+            throttle: 50
+        }],
+        series: [
+
+            {
+                name:'效率',
+                type:'line',
+                smooth:true,
+                stack: 'a',
+                symbol: 'circle',
+                symbolSize: 5,
+                sampling: 'average',
+                itemStyle: {
+                    normal: {
+                        color: '#d68262'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#ffe2d0'
+                        }, {
+                            offset: 1,
+                            color: '#ffe'
+                        }])
+                    }
+                },
+            }
+
+        ]
+    };
+    ;
+
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+    var ss=[];
+
+    option2 = {
+        color:['#f72525','#fe7202','#01cbfe', '#278ffa', '#000000'],
+       /* tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },*/
+        legend: {
+            data: ['弱捻','不良锭','闲置锭子', '频繁断头']
+        },
+        grid: {
+            left: '4%',
+            right: '24%',
+            bottom: '1%',
+            containLabel: true
+        },
+        xAxis:  {
+            show:false,
+            axisLine:{
+                show:false,
+            },
+            type: 'value',
+            splitLine:{
+                show:false,
+            },
+            axisLabel:{
+                fontSize:20,
+            }
+        },
+        yAxis: {
+            axisLine:{
+              show:false,
+            },
+            axisTick:{
+                show:false,
+            },
+            type: 'category',
+        axisLabel:{
+            fontSize:20,
+        }
+        },
+        series: [
+            {
+                name: '弱捻',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter:function(params){
+                            if (params.value <=0){
+                                return '';
+                            }
+                        }
+                    }
+                },
+                itemStyle:{
+                  barBorderRadius:[5,0,0,5],
+                },
+            },
+            {
+                name: '不良锭',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter:function(params){
+                            if (params.value <=0){
+                                return '';
+                            }
+                        }
+                    }
+                },
+            },
+            {
+                name: '闲置锭子',
+                type: 'bar',
+                stack: '总量',
+                barWidth : 20,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter:function(params){
+                            if (params.value <=0){
+                                return '';
+                            }
+                        }
+                    }
+                },
+            },
+
+            {
+                name: '频繁断头',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        formatter:function(params){
+                            if (params.value <=0){
+                                return '';
+                            }
+                        }
+                    }
+                },
+                itemStyle:{
+                    barBorderRadius:[0,5,5,0],
+                },
+            },{
+                name:'ukn',
+                type:'bar',
+                stack:'总量',
+                label:{
+                    normal:{
+                        show:true,
+                        fontSize:16,
+                        position:'right',
+                        offset:[20,0],
+                        formatter: function(params) {//格式化柱状图显示label
+
+                            var dataValue = 0;
+                            if (wvalue0.length>0){
+                                for(var i = 0; i< wvalue0.length;i++){
+                                    if (wnames[i] == params.name){
+                                        dataValue += wvalue0[i]+wvalue1[i]+wvalue2[i]+wvalue3[i];
+                                    }
+                                }
+                                return "合计："+dataValue+"次";
+                            }else{
+                                return "";
+                            }
+
+                        }
+
+                    }
+                },
+            }
+        ]
+    };;
+    if (option2 && typeof option2 === "object") {
+        myChart2.setOption(option2, true);
+    }
+    option3 = {
+
+        calculable: true,
+        grid: {
+            top: '12%',
+            left: '5%',
+            right: '4%',
+            bottom: '10%',
+            borderWidth: 0,
+            y: 80,
+            y2: 60
+        },
+
+        xAxis: [
+            {
+                type: 'category',
+                axisLine:{
+                    show:false,
+                },
+                axisTick:{
+                    show:false,
+                },
+                axisLabel:{
+                    fontSize:20,
+                }
+
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                show: true,
+                axisLine:{
+                    show:false,
+                },
+                axisTick:{
+                    show:false,
+                },
+                axisLabel:{
+                    fontSize:20,
+                }
+            }
+        ],
+        series: [
+            {
+                name: '断头个数统计',
+                type: 'bar',
+                barWidth : 30,
+                itemStyle: {
+                    normal: {
+                        color:  new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#ff9a89'},
+                                {offset: 0.5, color: '#f17e5f'},
+                                {offset: 1, color: '#dd451e'}
+                            ]
+                        ),
+                        label: {
+                            show: true,
+                            fontSize:40,
+                            color:'#c73737',
+                            position:'top',
+                        }
+                    }
+                },
+
+
+            }
+        ]
+    };
+    //为echarts对象加载数据
+    myChart3.setOption(option3);
+    window.addEventListener('resize', function () {
+        myChart.resize();
+        myChart2.resize();
+        myChart3.resize();
+    });
+
+    //@div:滚动容器
+    //@step:每次滚动的高度，默认1px
+    //@delay:滚动间隔，默认0.05s
+    //@nextDelay:滚动完毕间隔多少秒再次滚动，默认2s后启动
+
+    function myMarquee(div, step, delay,nextDelay) {
+        step = step || 235;
+        delay =( delay || 5)*1000;
+        nextDelay = (nextDelay || 0) * 1000;;
+        var viewHeight = div.offsetHeight, timer, scrollTop = 0, totalHeight = viewHeight + div.scrollHeight,waitForNext=false;
+        var lefth = div.scrollHeight%viewHeight;
+        //前后补充容器高度一样的空白
+        if (lefth >0){
+            div.innerHTML = div.innerHTML + '<div style="height:' + (viewHeight-lefth) + 'px"></div>';
+        }
+        function scroll() {
+            scrollTop += step;
+            div.scrollTop = scrollTop;
+            if (scrollTop >= totalHeight) {
+                clearInterval(timer);
+                waitForNext = true;
+                scrollTop = div.scrollTop = 0;
+                setTimeout(function () { waitForNext = false; startTimer() }, nextDelay);
+            }
+        }
+        function startTimer() { if (!waitForNext) timer = setInterval(scroll, delay); }
+        $(div).hover(function () { clearInterval(timer) }, startTimer);
+        startTimer()
+    }
+
+    setInterval(function () {
+        wkId =$("#mdWkId", parent.document).attr("value");
+        getData(wkId);
+    }, 5000);
+    /**************************************时间格式化处理************************************/
+    function Format(datetime,fmt) {
+        if (parseInt(datetime)==datetime) {
+            if (datetime.length==10) {
+                datetime=parseInt(datetime)*1000;
+            } else if(datetime.length==13) {
+                datetime=parseInt(datetime);
+            }
+        }
+        datetime=new Date(datetime);
+        var o = {
+            "M+" : datetime.getMonth()+1,                 //月份
+            "d+" : datetime.getDate(),                    //日
+            "h+" : datetime.getHours(),                   //小时
+            "m+" : datetime.getMinutes(),                 //分
+            "s+" : datetime.getSeconds(),                 //秒
+            "q+" : Math.floor((datetime.getMonth()+3)/3), //季度
+            "S"  : datetime.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (datetime.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+    }
+</script>
+
+</body>
+</html>

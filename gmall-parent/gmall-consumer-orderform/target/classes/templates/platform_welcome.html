@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>系统用户列表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet"
+	href="${futRoot_mesSys}/statics/resources/layui/css/layui.css">
+<link rel="stylesheet"
+	href="${futRoot_mesSys}/statics/resources/bootstrap/css/font-awesome.css">
+<script type="text/javascript"
+	src="${futRoot_mesSys}/statics/resources/bootstrap/js/echarts.min.js"></script>
+<script type="text/javascript"
+	src="${futRoot_mesSys}/statics/resources/imes/js/jquery.js"></script>
+<script type="text/javascript"
+	src="${futRoot_mesSys}/statics/resources/imes/js/circle-progress.js"></script>
+
+<script src="${futRoot_mesMon}/statics/resources/layui/layui.js"></script>
+<script type="text/javascript"
+	src="${futRoot_mesMon}/statics/resources/imes/js/tools.js"></script>
+
+<script type="text/javascript"
+	src="${futRoot_mesMon}/statics/resources/imes/js/tools.js"></script>
+
+<script type="text/javascript"
+	src="${futRoot_mesSys}/statics/resources/platformWelcome/platformWelcome.js"></script>
+<style type="text/css">
+.layui-row div div {
+	background-color: white;
+	border-radius: 2px;
+}
+
+#circle {
+	position: relative;
+	text-align: center;
+	font-size: 15px;
+}
+
+#circle span {
+	position: absolute;
+	top: 45px;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	line-height: 6px;
+}
+
+.layui-badge {
+	position: relative;
+	display: inline-block;
+	padding: 1px 3px;
+	font-size: 6px;
+	text-align: center;
+	background-color: #da3716;
+	color: #fff;
+	border-radius: 2px;
+	height: 9px;
+	line-height: 9px;
+	font-size: 7px;
+	cursor: pointer;
+}
+
+.layui-badge-rim {
+	text-align: center;
+	height: 19px;
+	width: 13px;
+	line-height: 19px;
+	font-size: 11px;
+	border-radius: 50px;
+	margin-bottom: 1px;
+	margin-left: 1px;
+}
+
+.badge-blue {
+	border-color: #278ffa;
+	color: #278ffa;
+}
+
+.badge-orange {
+	border-color: #fe7202;
+	color: #fe7202;
+}
+
+.badge-red {
+	border-color: #f72525;
+	color: #f72525;
+}
+
+.layui-card-header {
+	font-size: 9px
+}
+
+div.marquee {
+	overflow: hidden;
+	height: 117px;
+	width: 100%;
+	color: #000000
+}
+
+.marquee>div {
+	height: 80px;
+}
+
+.warn-msg {
+	float: left;
+}
+
+.warn-msg-spindle {
+	float: left;
+}
+
+.warn-msg-side {
+	float: left;
+}
+
+.huading {
+	color: #f72525;
+	font-size: 45px;
+}
+
+.remarks {
+	width: 12px;
+	height: 34px;
+	display: block;
+	float: left;
+	margin-top: 8px;
+	font-size: 30px;
+}
+
+.buliangding {
+	color: #fe7202;
+	font-size: 45px;
+}
+
+.xianzhiding {
+	color: #01cbfe;
+	font-size: 45px;
+}
+
+.pinfanduantou {
+	color: #278ffa;
+	font-size: 45px;
+}
+
+.xingmu {
+	color: red;
+}
+</style>
+
+</head>
+<body class="childrenBody" style="margin-top: 7px">
+	<div class="layui-form-item" id="fullScreen">
+		<label class="layui-form-label"></label>
+		<div class="layui-inline">
+			<select name="workshopId" id ="workshopId">
+				<#if (listWK??)&&(listWK?size>0)>
+			         <#list listWK as workshop >
+			          <option value="${workshop.id}" code="${workshop.code}" >${(workshop.name)!''}</option>
+			         </#list>
+			      </#if>
+			</select>
+		</div>
+		<div class="layui-inline">
+			<button type="button" id="btn" onclick="fullScreen()">全屏</button>
+		</div>
+	</div>
+	
+<div class="layui-carousel" id="test2" lay-filter="test2"  style="box-shadow: none; width:2500px; height:1900px">
+  <div carousel-item="">
+    <div class="layui-fluid" id="alarm_paramater" style="box-shadow: none; height: 530px;width:960px">
+		<div class="layui-row layui-col-space7 up">
+			<div class="layui-col-xs6">
+				<div class="layui-card" style="box-shadow: none; height: 530px;">
+					<div class="layui-card-header"
+						style="text-align: left; border: none; height: 60px; margin-top: 20px; font-size: 50px">报警信息</div>
+					<div style="font-size: 30px; height: 430px; border-bottom:">
+						<div class="marquee" id="RunTopic" style="height: 430px;"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-col-xs6">
+				<div class="layui-card" style="box-shadow: none; height: 530px;">
+					<div class="layui-card-header"
+						style="text-align: left; border: none; height: 60px; margin-top: 20px; font-size: 50px">报警最高机台</div>
+					<div style="font-size: 30px; height: 430px; border-bottom:">
+						<div class="marquee" id="container2" style="height: 430px;">
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-fluid" id="breakpoint_paramater" style="box-shadow: none; height: 530px;width:960px">
+		<div class="layui-row layui-col-space7 up">
+			<div class="layui-col-xs6">
+				<div class="layui-card" style="box-shadow: none; height: 530px;">
+					<div class="layui-card-header"
+						style="text-align: left; border: none; height: 60px; margin-top: 20px; font-size: 50px">断头信息1-5</div>
+					<div style="font-size: 30px; height: 430px; border-bottom:">
+						<div class="marquee" id="breakPointPoolFF" style="height: 430px;"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-col-xs6">
+				<div class="layui-card" style="box-shadow: none; height: 530px;">
+					<div class="layui-card-header"
+						style="text-align: left; border: none; height: 60px; margin-top: 20px; font-size: 50px">断头信息6-10</div>
+					<div style="font-size: 30px; height: 430px; border-bottom:">
+						<div class="marquee" id="breakPointPoolST" style="height: 430px;">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+  </div>
+</div> 
+<script type="text/javascript">
+    var getData;
+    var wnames=[];
+    var wvalue0=[];
+    var wvalue1=[];
+    var wvalue2=[];
+    var wvalue3=[];
+    var wvalue4=[];
+    //基于准备好的dom，初始化echarts图表
+    //var myChart3 = echarts.init(document.getElementById('breakbar-chart'));
+    
+    function print(obj){
+    try{
+        seen = [];
+        json = JSON.stringify(obj, function(key, val) {
+           if (typeof val == "object") {
+                if (seen.indexOf(val) >= 0) return;
+                seen.push(val)
+            }
+            return val;
+        });
+        return json;
+    }catch(e){
+        return e;
+    }
+};
+    
+    
+    layui.use(['element', 'form','carousel'], function () {
+        var element = layui.element
+            , form = layui.form
+            , carousel = layui.carousel
+            , $ = layui.jquery;
+ 
+        carousel.render({
+   	     elem: '#test2'
+   	    ,interval:15000
+   	    ,height:'520px'
+   	    ,width:'960px'
+   	    ,anim:'updown'
+   	    ,arrow:'none'       //hover,always,none
+   	    ,indicator:'none'    //inside,outside,none
+   	    ,switch:'ON' 
+         });
+        
+        var oldMsg;
+        var data2=[];
+
+        getData = function (wkId) {
+            $.ajax({
+                type: "POST",   
+                url: "${futRoot_mesSys}/sys/platform/equData?wkId=" + wkId,
+                success: function (res) {
+                    var readyhtml = "";
+                    var doffinghtml = "";
+                    var warninghtml = "";
+                    var warnmessage = "";
+                    var warningSortHtml="";              //报警机台前5名；
+                    
+                    var breakPointFFHtml=""                   //1到5名
+                    var breakPointSTHtml=""                   //6到10名
+                    var num = 0;
+                    var pe = 0;
+                    $.each(res, function (index, ele) {
+                        //console.info(ele);
+                        if (ele.status!=5){
+                            num++;
+                        }
+                        pe += ele.prodEficiency;
+                        
+                        if (ele.status!=5&&ele.doffs <= 15) {
+                            readyhtml += "<span class=\"layui-badge-rim badge-blue\">" + ele.equName + "</span>";
+                        }
+                        if (ele.status == "3") {
+                            doffinghtml += "<span class=\"layui-badge-rim badge-orange\">" + ele.equName + "</span>";
+                        }
+                        if (ele.faultSpindles && ele.faultSpindles.length > 0) {
+                          //  warninghtml += "<span class=\"layui-badge-rim badge-red\">" + ele.equName + "</span>";   
+                          warninghtml +="<span >" + ele.equName + "</span>";
+                          ele.faultSpindles.sort(compare2('id'));  
+                          $.each(ele.faultSpindles, function (index, e) { 
+                        	  //alert(String(e.id).length)
+                        	  if (String(e.id).length==2)
+                        		{
+                        		  e.id=e.id+"&nbsp;&nbsp;";
+                        		}
+                           warnmessage += " <div style='margin-top:6px;font-size:45px;'> <span class='xingmu' style='padding-top:5px;display:inline-block;float:left;'>"+ele.equName+"</span><span style='margin-top:-1px;height:20px;font-size:40px;display:inline-block;float:left;'>#</span>&nbsp;&nbsp;<span  class='xingmu'>"+e.id+"锭</span>&nbsp;&nbsp;<span style='font-size: 35px;'>"+(e.s==1?"左":"右")+"<span>&nbsp;&nbsp;" +
+                                          (e.ty==2?"<span class='huading' style='color:#f72525'>弱捻</span>":e.ty==3?"<span class='buliangding'>不良锭</span>":e.ty==4?"<span class='xianzhiding'>空闲锭</span>":"<span class='pinfanduantou'>频繁断头</span>")+
+                           "</div>";
+                            })
+
+                        }
+                    })
+                    if (oldMsg!=warnmessage){
+                        oldMsg=warnmessage;
+                        $("#RunTopic").html(warnmessage);
+                        $('div.marquee').each(function (){
+                            if (this.scrollHeight>this.offsetHeight) new myMarquee(this);
+                        });
+                    }
+                    
+                    
+                    var names = [];
+                    var values = [];
+                     wnames=[];
+                     wvalue0=[];
+                     wvalue1=[];
+                     wvalue2=[];
+                     wvalue3=[];
+                     wvalue4=[];  
+                     res.sort(compare('sumEndBreak'));
+                    // console.info("res::"+print(res));
+                    // 获取断头数最高的前十个机台
+                    var resnum;
+                    if (res.length>=10){
+                        resnum = 10;
+                    } else {
+                        resnum = res.length;
+                    }
+                    for (var i = 0; i < resnum; i++) {
+                    	res[i].sumEndBreak=res[i].leftEb+res[i].rightEb;
+                    	
+                    	if (typeof(res[i].matName)=="undefined" ||  null == res[i].matName)
+                    		{
+                    		   continue;      
+                    		}
+                    	if (res[i].matName.indexOf("/")>-1)
+                    		{
+                    		  res[i].matName=res[i].matName.replace("/","");
+                    		}
+                    	 
+                    	  if (res[i].matName.toString().length > 4)
+                    		{
+                    		   res[i].matName=res[i].matName.substring(0,4)
+                    		}
+                    	  
+                    	  
+                    	  if (String(res[i].leftEb).length<2)
+                  		{
+                    		  res[i].leftEb=res[i].leftEb+"&nbsp;&nbsp;";
+                  		}
+                          
+                          if (String(res[i].rightEb).length<2)
+                  		{
+                        	  res[i].rightEb=res[i].rightEb+"&nbsp;&nbsp;";
+                  		}    
+                        //1-5名  
+                        if (i<5)
+                        {
+                        	breakPointFFHtml+=" <div style='margin-top:7px;font-size:45px'><span  class='xingmu' style='padding-top:1px;display:inline-block;float:left;'>"+res[i].equName+"</span>"+
+                        	"<span style='margin-top:-1px;height:20px;font-size:40px;display:inline-block;float:left;'>#</span>"+
+                            "&nbsp;&nbsp;<span class='huading'>"+res[i].matName+"</span>"+
+                            "&nbsp;&nbsp;<span class='buliangding'>"+res[i].leftEb+"</span>"+
+                            "<span style='font-size: 35px;'>左<span>"+
+                            "&nbsp;&nbsp;<span class='buliangding'>"+res[i].rightEb+"</span>"+
+                            "<span style='font-size: 35px;'>右<span>"+
+                            "&nbsp;&nbsp;<span class='huading'>"+res[i].sumEndBreak+"</span>"+
+                            "</div>";
+                        }else
+                        {
+                        	breakPointSTHtml+=" <div style='margin-top:7px;font-size:45px'><span  class='xingmu' style='padding-top:1px;display:inline-block;float:left;'>"+res[i].equName+"</span>"+
+                        	"<span style='margin-top:-1px;height:20px;font-size:40px;display:inline-block;float:left;'>#</span>"+
+                            "&nbsp;&nbsp;<span class='huading'>"+res[i].matName+"</span>"+
+                            "&nbsp;&nbsp;<span class='buliangding'>"+res[i].leftEb+"</span>"+
+                            "<span style='font-size: 35px;'>左<span>"+
+                            "&nbsp;&nbsp;<span class='buliangding'>"+res[i].rightEb+"</span>"+
+                            "<span style='font-size: 35px;'>右<span>"+
+                            "&nbsp;&nbsp;<span class='huading'>"+res[i].sumEndBreak+"</span>"+
+                            "</div>";
+                        }
+                           
+                    }
+                    
+                    //机台断头信息前10
+                    $("#breakPointPoolFF").html(breakPointFFHtml);  
+                    $("#breakPointPoolST").html(breakPointSTHtml);  
+
+                    var wnum;
+                    if (res.length>=4){
+                        wnum = 4;
+                    } else{
+                        wnum = res.length;
+                    }
+                    res.sort(compare('summt'));
+                    for( var j=0;j<wnum; j++){
+                        wnames.push(res[j].equName + "#");
+                        wvalue0.push(res[j].smt);
+                        wvalue1.push(res[j].rmt);
+                        wvalue2.push(res[j].imt);
+                        wvalue3.push(res[j].fmt);
+                        wvalue4.push(0);
+                        var totalNum=res[j].smt+res[j].rmt+res[j].imt+res[j].fmt;
+                        
+                        
+                        if (String(res[j].smt).length<2)
+                		{
+                        	res[j].smt=res[j].smt+"&nbsp;&nbsp;";
+                		}
+                        
+                        if (String(res[j].rmt).length<2)
+                		{
+                        	res[j].rmt=res[j].rmt+"&nbsp;&nbsp;";
+                		}
+                        
+                        if (String(res[j].imt).length<2)
+                		{
+                        	res[j].imt=res[j].imt+"&nbsp;&nbsp;";
+                		}
+                        
+                        if (String(res[j].fmt).length<2)
+                		{
+                        	res[j].fmt=res[j].fmt+"";
+                		}
+                        
+                        warningSortHtml += " <div style='margin-top:7px;font-size:45px'><span  class='xingmu' style='padding-top:1px;display:inline-block;float:left;'>"+res[j].equName+"</span><span style='margin-top:-1px;height:20px;font-size:40px;display:inline-block;float:left;'>#</span>"+
+                        "&nbsp;&nbsp;<span class='huading'>"+res[j].smt+"</span>&nbsp;&nbsp;<span class='buliangding'>"+res[j].rmt+"</span>&nbsp;&nbsp;<span class='xianzhiding'>"+res[j].imt+"</span>&nbsp;&nbsp;<span class='pinfanduantou'>"+res[j].fmt+"</span>_<span>"+totalNum+"</span>"+
+                        "</div>";
+                    }
+
+                    warningSortHtml += "<div style='margin-top:8px;font-size:34px;padding:0px;'>" +
+                    "&nbsp;&nbsp;<span class='remarks' style='background:#f72525;'></span><span  style=float:left;display:block;padding:0px;'>弱捻</span>&nbsp;&nbsp;<span class='remarks' style='background:#fe7202;'></span> <span style=float:left;display:block;padding:0px;'>不良</span>&nbsp;&nbsp;<span class='remarks' style='background:#01cbfe;'></span><span  style=float:left;display:block;padding:0px;'>闲置</span>&nbsp;&nbsp;<span class='remarks' style='background:#278ffa;'></span><span style=padding:10px;float:left;display:block;padding:0px;'>频繁断头</span>"+
+                    "</div>";
+                    $("#container2").html(warningSortHtml);  
+                }
+            });
+        }
+        
+        
+        var wkId=$("#workshopId").val();
+        getData(wkId);
+        function compare(property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value2 - value1;
+            }
+        }
+        function compare2(property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value1 - value2;
+            }
+        }
+
+         function   initWorkshop()
+         {
+             var mdWkIdValue=$("#workshopId").val();
+              getData(mdWkIdValue);
+          }
+             initWorkshop();
+         });
+
+    //@div:滚动容器
+    //@step:每次滚动的高度，默认1px
+    //@delay:滚动间隔，默认0.05s
+    //@nextDelay:滚动完毕间隔多少秒再次滚动，默认2s后启动
+    function myMarquee(div, step, delay,nextDelay) {
+        step = step || 86;
+        delay =( delay || 5)*1000;
+        nextDelay = (nextDelay || 0) * 1000;
+        var viewHeight = div.offsetHeight, timer, scrollTop = 0, totalHeight = viewHeight + div.scrollHeight,waitForNext=false;
+        var lefth = div.scrollHeight%viewHeight;
+        //前后补充容器高度一样的空白
+        if (lefth >0){
+            div.innerHTML = div.innerHTML + '<div style="height:' + (viewHeight-lefth) + 'px"></div>';
+        }
+        function scroll() {
+            scrollTop += step;
+            div.scrollTop = scrollTop;
+            if (scrollTop >= totalHeight) {
+                clearInterval(timer);
+                waitForNext = true;
+                scrollTop = div.scrollTop = 0;
+                setTimeout(function () { waitForNext = false; startTimer() }, nextDelay);
+            }
+        }
+        function startTimer() { if (!waitForNext) timer = setInterval(scroll, delay); }
+        $(div).hover(function () { clearInterval(timer) }, startTimer);
+        startTimer();
+    }
+
+    setInterval(function () {
+    	var wkIdValue=$("#workshopId").val();
+        getData(wkIdValue);
+    }, 3000);
+    
+    
+    
+    
+    
+    
+    
+    
+    /**************************************时间格式化处理************************************/
+    function Format(datetime,fmt) {
+        if (parseInt(datetime)==datetime) {
+            if (datetime.length==10) {
+                datetime=parseInt(datetime)*1000;
+            } else if(datetime.length==13) {
+                datetime=parseInt(datetime);
+            }
+        }
+        datetime=new Date(datetime);
+        var o = {
+            "M+" : datetime.getMonth()+1,                 //月份
+            "d+" : datetime.getDate(),                    //日
+            "h+" : datetime.getHours(),                   //小时
+            "m+" : datetime.getMinutes(),                 //分
+            "s+" : datetime.getSeconds(),                 //秒
+            "q+" : Math.floor((datetime.getMonth()+3)/3), //季度
+            "S"  : datetime.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (datetime.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+    }
+</script>
+</body>
+</html>

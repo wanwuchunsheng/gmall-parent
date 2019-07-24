@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: 工具类
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: wan
+Implementation-Vendor-Id: com.parent.gmall
+Build-Jdk: 1.8.0_201
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/gmall-parent/gmall-commom-tools
+Created-By: Maven Integration for Eclipse
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户查询</title>
+<style type="text/css">
+   table,tr,td,th {
+	   border: 1px solid red;
+   }
+   table{
+      width: 100%;
+      text-align: center;
+   }
+</style>
+</head>
+<body>
+
+  <h1>用户列表</h1>
+  <table >
+     <tr>
+        <th>姓名</th><th>年龄</th><th>地址</th>
+     </tr>
+     <#if ( user?size>0 )>
+	   <#list user as u>
+	       <tr>
+	        <td>${u.name?if_exists}</td> 
+	        <td>${u.age?if_exists}</td>
+	        <td>${u.address?if_exists}</td>
+	       </tr>
+	   </#list>
+	  </#if>
+  </table>
+  <img src="../images/idea_img.png"/>
+</body>
+</html>

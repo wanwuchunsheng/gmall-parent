@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="${futRoot_mesSys}/statics/resources/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="${futRoot_mesSys}/statics/resources/imes/css/style.css" media="all">
+	<style>
+
+		.searchLable,.search_input{
+
+			font-size: 15px;}
+
+	</style>
+</head>
+<body class="childrenBody">
+<div class="layui-fluid">
+	<fieldset class="layui-elem-field">
+	    <legend>角色管理</legend>
+	    <div class="layui-field-box">
+	    <form class="layui-form">
+			<label   class="searchLable"  >角色名</label>
+	        <div class="layui-inline" style="width: 15%">
+	            <input type="text" value="" name="roleName" placeholder="角色名" class="layui-input search_input">
+	        </div>
+	        
+	        <div class="layui-inline">
+				<button class="layui-btn layui-btn-normal layui-btn-qry"  lay-submit="" lay-filter="searchForm">查询</button>
+				<button type="reset" class="layui-btn layui-btn-primary layui-btn-qry">重置</button>
+			</div>
+	    </form>
+	    </div>
+	</fieldset>
+	<div class="layui-form users_list">
+	
+	    <table class="layui-table" id="test" lay-filter="demo"></table>
+	    <script type="text/html" id="toolbarDemo">
+              <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addRole">添加</button>
+                <button class="layui-btn layui-btn-sm " lay-event="editRole">编辑</button>
+			 	<button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="addUser">分配用户</button>
+                <button class="layui-btn layui-btn-sm layui-bg-cyan" lay-event="addAuth">分配权限</button>
+                
+                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deleteSome">批量删除</button>
+              </div>
+	    </script>
+			<script type="text/html" id="userStatus">
+               <!-- 这里的 checked 的状态只是演示 -->
+               {{#  if(d.del == false){ }}
+               <span class="layui-badge layui-bg-green">启用</span>
+               {{#  } else { }}
+               <span class="layui-badge layui-bg-red">禁用</span>
+               {{#  } }}
+            </script>
+	    <script type="text/html" id="userGender">
+       
+        {{#  if(d.gender == 0){ }}
+        <span class="layui-badge layui-bg-green">女</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-gray">男</span>
+        {{#  } }}
+    </script>
+
+	</div>
+<div id="page"></div>
+<script src="${futRoot_mesSys}/statics/resources/layui/layui.js"></script>
+<script type="text/javascript" src="${futRoot_mesSys}/statics/resources/imes/js/tools.js"></script>
+<script>
+    layui.use(['layer','form','table'], function() {
+        var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form,
+                table = layui.table,
+                t;                  //表格数据变量
+
+        t = {
+            elem: '#test',
+            url:'${futRoot_mesSys}/sys/role/vf/list',
+            method:'post',
+            toolbar: '#toolbarDemo',
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                groups: 2, //只显示 1 个连续页码
+                first: "首页", //显示首页
+                last: "尾页", //显示尾页
+                limits:[10, 20, 30,50,100]
+            },
+           cellMinWidth: 80,
+            cols: [[
+                {type:'checkbox'},
+                {field:'roleName',  title: '角色名称'},
+                {field:'createUserName',     title: '创建人名称'  },
+                {field:'createDate',  title: '创建时间' ,templet:'<div>{{ layui.laytpl.toDateString(d.createDate) }}</div>',unresize: true}, //单元格内容水平居中
+                {field:'updateUserName',  title: '修改人姓名' },
+                {field:'updateDate',  width: 180, title: '修改时间',templet:'<div>{{ layui.laytpl.toDateString(d.updateDate) }}</div>',unresize: true} , 
+                {field:'del',   width:70,  title: '状态' ,templet:'#userStatus' },
+                {field:'remark',  title: '备注'  }
+                
+                /* {fixed: 'right',    title: '操作',   width: '22%', align: 'center',toolbar: '#barDemo'} */
+                
+            ]]
+            ,parseData:function(res){
+				 return {
+		              "code": "0", //解析接口状态 0为有数据
+		              "msg": "", //解析提示文本
+		              "count": res.iTotalRecords, //解析数据长度
+		              "data": res.aaData //解析数据列表
+		          }; 
+			} 
+            ,loading: true //请求数据时，是否显示loading
+        };
+        table.render(t);
+
+
+
+		//头工具栏事件
+		table.on('toolbar(demo)', function(obj){
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch(obj.event){
+				case 'addRole' :
+					var addIndex = layer.open({
+						title : "添加角色",
+						type : 2,
+						content : "${futRoot_mesSys}/sys/role/vf/add",
+						success : function(layero, addIndex){
+							/*  setTimeout(function(){
+                                 layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                                     tips: 3
+                                 });
+                             },500); */
+						}
+					});
+					//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+					$(window).resize(function(){
+						layer.full(addIndex);
+					});
+					layer.full(addIndex);
+					break;
+				case 'addUser':
+					var data = checkStatus.data;
+
+					if(data.length == 1) {
+						var d = data[0];
+						var edituserIndex = layer.open({
+							title : "分配用户",
+							type : 2,
+							content : "${futRoot_mesSys}/sys/role/vf/adduser?id="+d.id,
+							success : function(layero, index){
+								/*  setTimeout(function(){
+									 layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+										 tips: 3
+									 });
+								 },500); */
+							}
+						});
+						//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+						$(window).resize(function(){
+							layer.full(edituserIndex);
+						});
+						layer.full(edituserIndex);
+					} else {
+						layer.msg("请选择且仅能选择一条数据！");
+						return false;
+					}
+					break;
+				case 'addAuth':
+					var data = checkStatus.data;
+					if(data.length == 1) {
+						var d = data[0];
+						var editIndex = layer.open({
+							title : "分配权限",
+							type : 2,
+							content : "${futRoot_mesSys}/sys/role/vf/addAuth?id="+d.id,
+							success : function(layero, index){
+								/*  setTimeout(function(){
+                                     layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                                         tips: 3
+                                     });
+                                 },500); */
+							}
+						});
+						//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+						$(window).resize(function(){
+							layer.full(editIndex);
+						});
+						layer.full(editIndex);
+					}else {
+							layer.msg("请选择且仅能选择一条数据！");
+							return false;
+						}
+					break;
+				case 'editRole':
+					var data = checkStatus.data;
+
+					if(data.length == 1) {
+						var d = data[0];
+						var editIndex = layer.open({
+							title : "编辑角色",
+							type : 2,
+							content : "${futRoot_mesSys}/sys/role/vf/edit?id="+d.id,
+							success : function(layero, index){
+								/*  setTimeout(function(){
+                                     layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
+                                         tips: 3
+                                     });
+                                 },500); */
+							}
+						});
+						//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+						$(window).resize(function(){
+							layer.full(editIndex);
+						});
+						layer.full(editIndex);
+					} else {
+						layer.msg("请选择且仅能选择一条数据！");
+						return false;
+					}
+					break;
+				case 'deleteSome':
+					data = checkStatus.data;
+					if(data.length > 0){
+						for(var i=0;i<data.length;i++){
+							var d = data[i];
+							/*  if(d.id === 1){
+                                 layer.msg("不能删除超级管理员");
+                                 return false;
+                             } */
+						}
+						layer.confirm("你确定要删除这些角色么？",{btn:['确定','取消']},
+								function(){
+									var deleteindex = layer.msg('删除中，请稍候',{icon: 16,time:false,shade:0.8});
+									$.ajax({
+										type:"POST",
+										url:"${futRoot_mesSys}/sys/role/vf/delRoles",
+										dataType:"json",
+										contentType:"application/json",
+										data:JSON.stringify(data),
+										success:function(res){
+											layer.close(deleteindex);
+											if(res.success){
+												layer.msg("删除成功",{time: 1000},function(){
+													table.reload('test', t);
+												});
+											}else{
+												layer.msg(res.message);
+											}
+										}
+									});
+								}
+						)
+					}else{
+						layer.msg("请选择需要删除的角色",{time:1000});
+					}
+
+					break;
+			};
+		});
+
+
+
+        //搜索
+        form.on("submit(searchForm)",function(data){
+            t.where = data.field;
+            table.reload('test', t);
+            return false;
+        });
+        
+        /**
+         *  把车间信息移到 main framer 状态栏
+         */
+         function   initWorkshop()
+         {
+             $("#workshopId", parent.document).find("dl dd").click(function(e) {	
+             var mdWkIdValue=$(this).find('a').attr('value');
+             var mdWkIdName=$(this).find('a').html();
+              $("#mdWkId", parent.document).attr("value",mdWkIdValue);  
+              $("#mdWkId", parent.document).html(mdWkIdName);
+              $("#workshopId", parent.document).hide(); 
+          	
+           	});
+        } 
+         initWorkshop();
+
+    });
+</script>
+</div>
+</body>
+</html>

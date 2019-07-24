@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet"
+	href="${futRoot_mesSys}/statics/resources/layui/css/layui.css"
+	media="all">
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+        .layui-form-item .role-box {
+            position: relative;
+        }
+        .layui-form-item .role-box .jq-role-inline {
+            height: 100%;
+            overflow: auto;
+        }
+        .color-box {
+            float:left;
+            width:30px;
+            height:30px;
+            margin:5px;
+            border: 1px solid white;
+        }
+        .layui-icon{
+           font-size: 40px;color: gray;
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<br>
+<form class="layui-form" style="width:80%;">
+    <input class="layui-hide" name="id" value="${fixCode.id?if_exists}"/>
+    
+    		<div class="layui-form-item">
+			<label class="layui-form-label">节点名称</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" name="title" value="${fixCode.title?if_exists}"
+					lay-verify="required" placeholder="请输入子节点名称">
+					
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">节点编码</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" name="code" value="${fixCode.code?if_exists}"
+				 lay-verify="required"	placeholder="请输入子节点编码">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" name="remark" value="${fixCode.remark?if_exists}"
+				 placeholder="备注">
+			</div>
+		</div>
+		
+	
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序值</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="num" value="${fixCode.num?if_exists}" lay-verify="required|number"  placeholder="排序">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="addUser">确定</button>
+            <button class="layui-btn layui-btn-danger" id="closeIframe"   class="layui-btn layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+
+
+<script src="${futRoot_mesSys}/statics/resources/imes/js/jquery.js"
+		></script>
+	<script src="${futRoot_mesSys}/statics/resources/layui/layui.js"></script>
+<script>
+var index = parent.layer.getFrameIndex(window.name); 
+    var iconShow,$;
+    layui.use(['form','jquery','layer'],function(){
+        var form = layui.form,
+                layer = layui.layer;
+        $    = layui.jquery;
+       
+
+        form.on("submit(addUser)",function(data){
+            if(data.field.id == null){
+                layer.msg("ID不存在",{time:1000});
+                return false;
+            }
+            if(data.field.sort<0){
+                layer.msg("排序值不能为负数",{time:1000});
+                return false;
+            }
+            var loadIndex = layer.load(2, {
+                shade: [0.3, '#333']
+            });
+            
+            
+            
+            $.post("${futRoot_mesSys}/sys/fixCode/vf/editFixCode",data.field,function (res) {
+                layer.close(loadIndex);
+                if(res.success){
+                    parent.layer.msg("编辑成功!",{time:1500},function(){
+                        //刷新父页面
+                        parent.location.reload();
+                    });
+                }else{
+                    layer.msg(res.message);
+                }
+            });
+            return false;
+        });
+      //关闭iframe
+        $('#closeIframe').click(function(){
+            parent.layer.close(index);
+        });
+    });
+</script>
+</body>
+</html>

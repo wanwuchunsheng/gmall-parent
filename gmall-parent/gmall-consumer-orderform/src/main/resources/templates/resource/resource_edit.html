@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜单修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet"
+	href="${futRoot_mesSys}/statics/resources/layui/css/layui.css"
+	media="all">
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+        .layui-form-item .role-box {
+            position: relative;
+        }
+        .layui-form-item .role-box .jq-role-inline {
+            height: 100%;
+            overflow: auto;
+        }
+        .color-box {
+            float:left;
+            width:30px;
+            height:30px;
+            margin:5px;
+            border: 1px solid white;
+        }
+        .layui-icon{
+           font-size: 40px;color: gray;
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<br>
+<form class="layui-form" style="width:80%;">
+    <input class="layui-hide" name="id" value="${resource.id?if_exists}"/>
+   
+     <div class="layui-form-item">
+			<label class="layui-form-label">父菜单</label>
+			<div class="layui-input-block">
+				<input type="text" id="tree" lay-filter="tree" name="upid" class="layui-input">
+			</div>
+		</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="resTitle" lay-verify="required" value="${resource.resTitle?if_exists}" placeholder="请输入菜单名称">
+        </div>
+    </div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">模块编码</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" name="modul"
+					value="${resource.modul?if_exists}" >
+			</div>
+		</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单地址</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="resPath" value="${resource.resPath?if_exists}"  placeholder="请输入菜单地址">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单图标</label>
+        <div class="layui-input-block">
+            <input type="hidden" class="layui-input" name="iconUrl" id="iconValue" value="${resource.iconUrl?if_exists}"  placeholder="请选择菜单图标">
+            <div class="layui-input-inline" style="width: 100px;">
+               <i id="realIcon" class="layui-icon ${resource.iconUrl?if_exists}"></i>
+            </div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <a class="layui-btn layui-btn-normal" id="selectIcon">选择一个图标</a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序值</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="num" value="${resource.num?if_exists}" lay-verify="required|number"  placeholder="菜单权限">
+        </div>
+    </div>
+     <div class="layui-form-item">
+			<label class="layui-form-label">菜单类型</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="type" lay-skin="switch" value="true" lay-filter="type"
+					lay-text="菜单|功能" <#if (resource.type??)&&(resource.type  == true)>checked=""</#if>>
+			</div>
+		</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否启用</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="del" lay-skin="switch" value="true"  lay-text="启用|禁用" <#if (resource.del  == false)>checked=""</#if> >
+    </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="remark" value="${resource.remark?if_exists}"  placeholder="备注">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-blue" lay-submit="" lay-filter="addUser">确定</button>
+            <button class="layui-btn layui-btn-danger" id="closeIframe"   class="layui-btn layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+<script src="${futRoot_mesSys}/statics/resources/imes/js/jquery.js"
+		></script>
+	<script src="${futRoot_mesSys}/statics/resources/layui/layui.js"></script>
+<script>
+var index = parent.layer.getFrameIndex(window.name); 
+    var iconShow,$;
+    layui.config({
+        base: '${futRoot_mesSys}/statics/resources/layui/extends/'
+    }).extend({
+        treeSelect:'treeSelect'
+    }).use(['form','jquery','layer','treeSelect'],function(){
+    	 var form = layui.form,
+         layer = layui.layer;
+ $    = layui.jquery;
+
+    	 var treeSelect = layui.treeSelect;
+    	    treeSelect.render({
+    	        // 选择器
+    	        elem: '#tree',
+    	        // 数据
+    	        data: '${futRoot_mesSys}/sys/resource/vf/parentTree',
+    	        // 异步加载方式：get/post，默认get
+    	        type: 'get',
+    	        // 占位符
+    	        placeholder: '选择父类菜单',
+    	        // 是否开启搜索功能：true/false，默认false
+    	        search: true,
+    	        style: {
+                   /*  folder: {
+                        enable: true
+                    }, */
+                    line: {
+                        enable: true
+                    }
+                },
+    	        // 点击回调
+    	        click: function(d){
+    	            $("#tree").val(d.current.id);
+    	        },
+    	        // 加载完成后的回调函数
+    	        success: function (d) {
+//    	                选中节点，根据id筛选
+    	            treeSelect.checkNode('tree', ${resource.upid?if_exists});
+//    	                获取zTree对象，可以调用zTree方法
+    	          // var treeObj = treeSelect.zTree('tree');
+    	          // console.log(treeObj); 
+//    	                刷新树结构
+    	           treeSelect.refresh('tree');
+    	        }
+    	    });
+       
+
+        $("#selectIcon").on("click",function () {
+            iconShow =layer.open({
+                type: 2,
+                title: '选择图标',
+                shadeClose: true,
+                content: '${futRoot_mesSys}/sys/resource/iconPage'
+            });
+            layer.full(iconShow);
+        });
+
+        form.on("submit(addUser)",function(data){
+            if(data.field.id == null){
+                layer.msg("菜单ID不存在",{time:1000});
+                return false;
+            }
+            if(data.field.sort<0){
+                layer.msg("排序值不能为负数",{time:1000});
+                return false;
+            }
+            var loadIndex = layer.load(2, {
+                shade: [0.3, '#333']
+            });
+            if(undefined !== data.field.type && null != data.field.type){
+                data.field.type = true;
+            }else{
+                data.field.type = false;
+            }
+            //判断是否属于菜单
+            if(undefined !== data.field.del && null != data.field.del){
+                data.field.del = false;
+            }else{
+                data.field.del = true;
+            }
+            
+            $.post("${futRoot_mesSys}/sys/resource/vf/editResource",data.field,function (res) {
+                layer.close(loadIndex);
+                if(res.success){
+                    parent.layer.msg("菜单编辑成功!",{time:1500},function(){
+                        //刷新父页面
+                        parent.location.reload();
+                    });
+                }else{
+                    layer.msg(res.message);
+                }
+            });
+            return false;
+        });
+      //关闭iframe
+        $('#closeIframe').click(function(){
+            parent.layer.close(index);
+        });
+    });
+</script>
+</body>
+</html>

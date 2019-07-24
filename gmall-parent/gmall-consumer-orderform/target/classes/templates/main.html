@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>智能IMES-主页面</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+ <link rel="stylesheet" href="../layui/css/admin.css" media="all">
+ <script type="text/javascript" src="../imes/js/jquery.js"></script>
+ <style type="text/css">
+
+  .layadmin-iframe {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0
+  }
+  i{
+     color: #040404;
+  }
+  .layui-nav-more{
+    color: #010101;
+  }
+.layui-this i{
+    color: white;
+}
+
+  .white{color: white}
+  .layui-side li{
+      border-top: 1.3px solid rgba(169, 169, 169, 0.31);
+  }
+  em, i { font-style: normal; }
+  .nav-tree-main .layui-nav-item > a i { margin-right: 10px; }
+  .nav-tree-main .layui-nav-item > .layui-nav-child dd a { padding-left: 40px; }
+  /* #menuBar { cursor: pointer; color: #fff; position: absolute; left: 0; top: 0; } */
+  /* 左侧栏 *** 向左折叠 mini-sidebar */
+  
+  .mini-sidebar .layui-layout-admin .layui-side { width: 48px; overflow-x: visible; }
+  /* .mini-sidebar .layui-layout-admin .layui-side:hover .layui-side-scroll { width: 268px; } */
+  .mini-sidebar .nav-tree-main .layui-side-scroll { width: 48px; overflow-x: initial; }
+  
+  .mini-sidebar .nav-tree-main.layui-nav-tree { width: 48px !important; }
+  .mini-sidebar .nav-tree-main.layui-nav-tree .layui-nav-item { position: relative; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item > .layui-nav-child { position: absolute; left: 48px; top: 0; width: 200px;
+      background-color: #f8f8f8!important;display: none; z-index: 9999;border-radius: 0; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item > .layui-nav-child dd a { line-height: 40px; text-align: left; padding: 0 20px;
+      color: #616161; }
+
+  .mini-sidebar .nav-tree-main > .layui-nav-item > .layui-nav-child dd a:hover{
+      color:white;
+  }
+  .mini-sidebar .nav-tree-main > .layui-nav-item:hover > .layui-nav-child { display: block; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item a { padding: 10px 0 0 0;  text-align: center; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item > a > .sideIcons { margin: 0 auto; }
+  .mini-sidebar .nav-tree-main .icon { line-height: 12px; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item a > .cite { display: block; line-height: 12px; padding-top: 5px; font-size: 12px; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item .cite em { display: none; }
+  .mini-sidebar .nav-tree-main > .layui-nav-item .layui-nav-child dd .cite{ line-height:40px; padding:0;}
+  .mini-sidebar .nav-tree-main > .layui-nav-item > a .layui-nav-more { display: none; }
+  .mini-sidebar .nav-tree-main .sub-nav .layui-nav-item a { line-height: 40px; text-align: left; padding: 0 20px; color: #b4bcc8; }
+  .mini-sidebar .nav-tree-main .sub-nav .layui-nav-item .layui-nav-more { display: block; }
+  .mini-sidebar .layui-body { left: 48px; }
+  .mini-sidebar .nav-tree-main .layui-nav-item > a i{ margin:0 auto;}
+
+  </style>
+ <script type="text/javascript">
+      $(function(){
+		   //首页
+	       $(".layui-but-home").click(function(){
+	    	   history.go(0);
+	       });
+	       //刷新子页面
+	       $(".layui-but-refresh").click(function(){
+	    	   $("#content").attr("src",$("#content").attr("src"));
+	       });
+	       $("#workshopId >dl dd:first").attr("class","layui-this");
+	   })
+	   
+     /**
+         选择左边菜单更换右边内容  type:系统类型
+     */
+     function chgMenuUrl(url,modul){
+     }
+	
+     
+  </script>
+</head>
+<body class="layui-layout-body" >
+
+  <div id="LAY_app">
+    <div class="layui-layout layui-layout-admin" >
+      <div  class="layui-header"  style=" color: #fff;background-image: url('../imes/images/jianbian.png');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"}" >
+	     <!-- <div id="refreshData"  style="line-height: 50px;background-color: #AA3130; width: 200px">
+		      <img src="../imes/images/logo.png" style="border-radius:3px; height: 30px;width: 155px;margin-top:1px;margin-left:15px;"/>
+		  </div>  -->
+        <!-- 头部区域 -->
+       <ul class="layui-nav layui-layout-left" >
+          <li class="layui-nav-item layadmin-flexible" >
+            <a href="javascript:;" title="侧边伸缩">
+              <i class="layui-icon layui-icon-shrink-right white" id="menuBar"></i>
+            </a>
+          </li> 
+          <li class="layui-nav-item layadmin-flexible layui-but-home" >
+            <a href="javascript:;" title="首页">
+              <i class="layui-icon layui-icon-home white"></i>
+            </a>
+          </li> 
+          <li class="layui-nav-item layadmin-flexible layui-but-refresh " >
+            <a href="javascript:;" title="刷新">
+              <i class="layui-icon layui-icon-refresh white" ></i>
+            </a>
+          </li>   
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+         
+          <li class="layui-nav-item layui-hide-xs" lay-unselect id="openWid">
+            <a href="javascript:;" layadmin-event="fullscreen">
+              <i class="layui-icon layui-icon-screen-full white"></i>
+            </a>
+          </li>
+ 
+          <!--新增车间 ,待确认  -->
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <cite style="color:#fff;">系统管理员</cite>
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" onclick="chgMenuUrl('sys/user/vf/userinfo','mes_sys')"  >基本资料</a></dd>
+              <dd><a  href="javascript:;" onclick="chgMenuUrl('sys/user/vf/toChangePassword','mes_sys')"  >修改密码</a></dd>
+              <hr>
+              <dd layadmin-event="logout" style="text-align: center;">
+              <a href="${futRoot}/sys/user/logout" >退出</a></dd>
+            </dl>
+          </li>
+          
+          <li class="layui-nav-item layui-hide-xs" lay-unselect id="openWid">
+            <a href="javascript:;" layadmin-event="fullscreen">
+              
+            </a>
+          </li>
+         
+        </ul>
+      </div>
+      
+      <!-- 侧边菜单 -->
+
+      <div class="layui-side layui-bg-black" style="border-right: 1px solid beige;" >
+          <div id="refreshData"  style="z-index: 1999;line-height: 49px;background-color: #991d04; width: 200px;position: absolute">
+              <img src="../imes/images/logo.png" style="border-radius:3px; height: 26px;width: 155px;margin-top:1px;margin-left:15px;"/>
+          </div>
+	     <div class="layui-side-scroll" style="position: relative;background-image:url('../imes/images/logored.png');background-position: 15% 80%; background-repeat:no-repeat; background-size:87% 20%;-moz-background-size:10% 100%; " >
+         <div style="display: block;overflow: hidden;margin-top: 49px">
+            <ul class="layui-nav layui-nav-tree nav-tree-main" lay-shrink="all" >
+              <li class="layui-nav-item layui-nav-itemed" >
+          	    <a href="javascript:;"><i class="layui-icon layui-icon-home"></i><span class="cite"><em>首页</em></span></a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="javascript:;" onclick="chgMenuUrl('1','2')" >
+							<i class="icon-fontf layui-icon "></i>
+							<span>卷烟机监控</span>
+						</a>
+						
+					</dd>
+					<dd>
+					    <a href="javascript:;" onclick="chgMenuUrl('1','2')" >
+							<i class="icon-fontf layui-icon "></i>
+							<span>包装机监控</span>
+						</a>
+					</dd>
+				</dl>
+         	      </li>
+                    <li class="layui-nav-item" >
+          	    <a href="javascript:;"><i class="layui-icon  layui-icon-edit"></i><span class="cite"><em>生产调度</em></span></a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="javascript:;" onclick="chgMenuUrl('1','2')" >
+							<i class="icon-fontf layui-icon "></i>
+							<span>工单管理</span>
+						</a>
+					</dd>
+					<dd>
+						<a href="javascript:;" onclick="chgMenuUrl('1','2')" >
+							<i class="icon-fontf layui-icon "></i>
+							<span>排班管理</span>
+						</a>
+					</dd>
+				</dl>
+         	  </li>
+	        </ul>
+         </div>
+	    </div>
+	  </div>
+
+      <!-- 主体内容 style="margin-top: -34px; "-->
+      <div class="layui-body" id="iframeContent" style="background-color: #f5f5f5" >
+        <div class="layadmin-tabsbody-item layui-show" >
+          <iframe id='content' name="content"  src="../gmall/welcome" frameborder="0"  class="layadmin-iframe" ></iframe>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!-- js区域 -->
+  <script src="../layui/layui.js"></script>
+  <script>
+	  //JavaScript代码区域
+	  layui.use(['element','layer','jquery','form'], function(){
+	  var element = layui.element;
+	  var layer=layui.layer;
+	  var $ = layui.jquery;
+	  $(function () {
+          // 左侧栏向左折叠
+          $("#menuBar").on('click', function () {
+              if ($("body").hasClass("mini-sidebar")) {
+                  $("#refreshData").width(200)
+                  $("body").removeClass("mini-sidebar");
+                  $(this).addClass("layui-icon-shrink-right");
+                  $(this).removeClass("layui-icon-spread-left");
+                  $(".layui-side-scroll").width(220);
+                  $(".layui-layout-left")[0].style.left=200+"px";
+                  $("#refreshData").html("<img src=\"../imes/images/logo.png\" style=\"border-radius:3px; height: 26px;width: 155px;margin-top:1px;margin-left:15px;\"/>");
+              } else {
+
+                  $("body").addClass("mini-sidebar");
+                  $(this).removeClass("layui-icon-shrink-right");
+                  $(this).addClass("layui-icon-spread-left");
+                  $(".layui-side-scroll").width(48);
+                  $(".layui-layout-left")[0].style.left=48+"px";
+                  $("#refreshData").width(48)
+                  $("#refreshData").html("<img src=\"../imes/images/logomini.png\" style=\"border-radius:3px; height: 35px;width: 35px;margin-top:1px;margin-left:7px;\"/>");
+              }
+          });
+          $(".layui-side .layui-nav-item").mouseover(function(){
+              $(".layui-side-scroll").width(220);
+          })
+
+          $(".layui-side .layui-nav-item").mouseout(function(){
+              if ($("body").hasClass("mini-sidebar")) {
+                  $(".layui-side-scroll").width(48);
+              }
+          })
+          //全屏预览
+          $("#openWid").click(function(){
+        	  //弹出即全屏
+              var index = layer.open({
+            	  title: '全屏预览',
+                  type: 2,
+                  btn: '关闭',
+                  content: $("#content").attr("src")/*,
+                   area: ['600px', '225px'], 
+                  maxmin: true*/
+              });
+              layer.full(index);
+          })
+          
+         
+          
+      })
+      
+     
+      
+      
+	});
+  </script>
+
+</body>
+</html>
